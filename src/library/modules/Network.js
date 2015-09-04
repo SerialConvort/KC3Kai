@@ -91,6 +91,17 @@ Listens to network history and triggers callback if game events happen
 				}
 			}
 			
+			// Overlay subtitles
+			// http://125.6.189.247/kcs/sound/kckavryopoywwx/4.mp3?version=2
+			if(request.request.url.indexOf("/kcs/sound/") > -1){
+				var soundPaths = request.request.url.split("/");
+				(new RMsg("service", "subtitle", {
+					filename: soundPaths[5].substring(2),
+					voiceNum: soundPaths[6].split(".")[0],
+					tabId: chrome.devtools.inspectedWindow.tabId
+				})).execute();
+			}
+			
 			// If request is a furniture asset
 			if(request.request.url.indexOf("resources/image/furniture") > -1){
 				// Clear overlays upon entering furniture menu

@@ -108,6 +108,16 @@ See Manifest File [manifest.json] under "background" > "scripts"
 		------------------------------------------*/
 		"fitScreen" :function(request, sender, response){
 			(new TMsg(request.tabId, "gamescreen", "fitScreen")).execute();
+		},
+		
+		/* SUBTITLES
+		When a ship speaks, show subtitles
+		------------------------------------------*/
+		"subtitle" :function(request, sender, response){
+			(new TMsg(request.tabId, "gamescreen", "subtitle", {
+				filename: request.filename,
+				voiceNum: request.voiceNum
+			})).execute();
 		}
 		
 	};

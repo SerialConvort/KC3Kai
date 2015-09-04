@@ -7,6 +7,7 @@ Provides access to data on built-in JSON files
 	"use strict";
 	
 	window.KC3Meta = {
+		repo: "",
 		_cache:{},
 		_icons:{},
 		_exp:{},
@@ -21,11 +22,14 @@ Provides access to data on built-in JSON files
 		_battle:{},
 		_terms:{},
 		_edges:{},
+		_quotes:{},
 		_defaultIcon:"",
 		
 		/* Initialization
 		-------------------------------------------------------*/
 		init :function( repo ){
+			this.repo = repo;
+			
 			// Load Common Meta
 			this._icons		= JSON.parse( $.ajax(repo+'icons.json', { async: false }).responseText );
 			this._exp		= JSON.parse( $.ajax(repo+'experience.json', { async: false }).responseText );
@@ -42,6 +46,10 @@ Provides access to data on built-in JSON files
 			this._servers	= KC3Translation.getJSON(repo, 'servers', true);
 			this._battle	= KC3Translation.getJSON(repo, 'battle', true);
 			this._terms		= KC3Translation.getJSON(repo, 'terms');
+		},
+		
+		loadQuotes :function(){
+			this._quotes = KC3Translation.getJSON(this.repo, 'quotes', true);
 		},
 		
 		/* Data Access
@@ -191,6 +199,23 @@ Provides access to data on built-in JSON files
 				}
 			}
 			return edgeId;
+		},
+		
+		quote :function(filename, voiceNum){
+			var shipMasterId = KC3Master.graph( filename );
+			if(shipMasterId){
+				if(typeof this._quotes[shipMasterId] != "undefined"){
+					if(typeof this._quotes[shipMasterId][voiceNum] != "undefined"){
+						return this._quotes[shipMasterId][voiceNum];
+					}else{
+						return "Ship is speaking unknown line..";
+					}
+				}else{
+					return "Unknown ship speaking..";
+				}
+			}else{
+				return "Ungraphed ship speaking..";
+			}
 		}
 	};
 	

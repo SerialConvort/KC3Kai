@@ -19,7 +19,9 @@ function ActivateGame(){
 $(document).on("ready", function(){
 	// Initialize data managers
 	ConfigManager.load();
+	KC3Master.init();
 	KC3Meta.init("../../../../data/");
+	KC3Meta.loadQuotes();
 	KC3QuestManager.load();
 	
 	// Apply interface configs
@@ -216,6 +218,11 @@ var interactions = {
 				});
 			});
 		});
+	},
+	
+	// Show subtitles
+	subtitle :function(request, sender, response){
+		console.log( KC3Meta.quote(request.filename, request.voiceNum) );
 	},
 	
 	// Dummy action
