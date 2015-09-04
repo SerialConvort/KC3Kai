@@ -114,7 +114,9 @@ See Manifest File [manifest.json] under "background" > "scripts"
 		When a ship speaks, show subtitles
 		------------------------------------------*/
 		"subtitle" :function(request, sender, response){
+			console.log("subtitle", request);
 			(new TMsg(request.tabId, "gamescreen", "subtitle", {
+				voicetype: request.voicetype,
 				filename: request.filename,
 				voiceNum: request.voiceNum
 			})).execute();

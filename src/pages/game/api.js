@@ -125,6 +125,8 @@ $(document).on("keydown", function(event){
     }
 });
 
+var subtitleVanishTimer = false;
+
 /* Invokable actions
 -----------------------------------*/
 var interactions = {
@@ -222,7 +224,35 @@ var interactions = {
 	
 	// Show subtitles
 	subtitle :function(request, sender, response){
-		console.log( KC3Meta.quote(request.filename, request.voiceNum) );
+		// Get subtitle text
+		var subtitleText = false;
+		switch(request.voicetype){
+			case "titlecall":
+				subtitleText = KC3Meta.quote( "titlecall_"+request.filename, request.voiceNum);
+				break;
+			default:
+				subtitleText = KC3Meta.quote( KC3Master.graph( request.filename ), request.voiceNum);
+				break;
+		}
+		
+		// If subtitle removal timer is ongoing, reset
+		if(subtitleVanishTimer){
+			clearTimeout(subtitleVanishTimer);
+		}
+		
+		// If subtitles available for the voice
+		if(subtitleText){
+			$(".overlay_subtitles").html(subtitleText);
+			$(".overlay_subtitles").fadeIn(500);
+			
+			subtitleVanishTimer = setTimeout(function(){
+				subtitleVanishTimer = false;
+				$(".overlay_subtitles").fadeOut(500);
+				
+			}, (2000+ ($(".overlay_subtitles").text().length*50)) );
+		}
+		
+		
 	},
 	
 	// Dummy action

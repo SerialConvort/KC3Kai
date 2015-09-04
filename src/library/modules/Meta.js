@@ -201,20 +201,19 @@ Provides access to data on built-in JSON files
 			return edgeId;
 		},
 		
-		quote :function(filename, voiceNum){
-			var shipMasterId = KC3Master.graph( filename );
-			if(shipMasterId){
-				if(typeof this._quotes[shipMasterId] != "undefined"){
-					if(typeof this._quotes[shipMasterId][voiceNum] != "undefined"){
-						return this._quotes[shipMasterId][voiceNum];
+		quote :function(identifier, voiceNum){
+			if(identifier){
+				if(typeof this._quotes[identifier] != "undefined"){
+					if(typeof this._quotes[identifier][voiceNum] != "undefined"){
+						return this._quotes[identifier][voiceNum];
 					}else{
-						return "Ship is speaking unknown line..";
+						return false;
 					}
 				}else{
-					return "Unknown ship speaking..";
+					return false;
 				}
 			}else{
-				return "Ungraphed ship speaking..";
+				return false;
 			}
 		}
 	};
