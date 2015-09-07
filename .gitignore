@@ -28,6 +28,7 @@ node_modules
 
 # Custom KC3 Ignores
 $devFiles
+dev
 src.pem
 
 # Mac swap files and DS_Store
